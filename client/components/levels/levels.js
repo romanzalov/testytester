@@ -176,12 +176,21 @@ suggestedTests: ['isFunction,Catship.prototype.info', 'isString,Catship.prototyp
 level: 7,
 title: 'All I want for my birthday is my family back',
 objective: 'So time dilation is an actual pain, ugh. Last time a new trainee was allowed to set up tests for asynchronous controls the whole ship moved forward in time 1 month... that was the month of my birthday, my anniversary and mother\'s day... it changed my life for the worse. don\'t make me miss my birthday. Testing asynchronously is possible. just find the async button to activate the async test. Notice that it wraps the second parameter of the "it" block in a "async" call and passes in "done" as a callback. done is also instantiated in the try and the catch blocks.',
-function: `setTimeout(() => {
-		for (var x = 1; x <= 3; x++) alert(x) }, 1000);
-	}
-	`,
-buttons: ['']
+function: `
 
+const timeDilationCheck = new Promise((resolve, reject) => {
+	setTimeout(() => {
+		resolve('Time Dilation: OK')
+	}, 1000)
+})
+
+let promiseChecker = async (stellarPromise) => {
+  await stellarPromise.then(res => console.log(res))
+}
+promiseChecker(timeDilationCheck)`,
+buttons: ['timeDilationCheck', 'timeDialationCheck()'],
+solutions: 'Time Dilation: OK',
+suggestedTests: ['equals,Time Dilation: OK']
 }
 ]
 
