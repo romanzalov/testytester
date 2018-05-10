@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Objective from './Objective'
-import {Row} from 'react-bootstrap';
+import {Row,Col} from 'react-bootstrap';
+import brace from 'brace';
+import AceEditor from 'react-ace';
 import { assert } from './test-object';
 import { it } from '../utils/tester';
 import levels from './levels/levels'
-import {postCodeToSandbox} from '../store/sandbox'
+import {postCodeToSandbox, getLevelsThunk} from '../store/'
 
 
 class LevelOutline extends Component {
@@ -15,7 +17,7 @@ class LevelOutline extends Component {
 			message: '',
 			selectOne: '',
 			selected: [],
-			error: false,
+			error: '',
 			input0: '',
 			input1: '',
 			input2: '',
@@ -26,6 +28,10 @@ class LevelOutline extends Component {
 		this.setState({
 			selectOne: event.target.value
 		})
+	}
+
+	componentDidMount() {
+		this.props.getLevelsThunk()
 	}
 
 	runTest = (event) => {
@@ -46,7 +52,7 @@ class LevelOutline extends Component {
 		if (assert[selectOne].post) sandbox = sandbox + assert[selectOne].post;
 
 		//post to sandbox and evaluate response. send in appropriate level in req.body as well
-		this.props.postCodeToSandbox({sandbox, level: this.props.match.params.id-1})
+		this.props.postCodeToSandbox({sandbox, level: this.props.match.params.id})
 		.then(res => {
 			//evaluate response using our assert function
 			let result = it(message)(assert[selectOne])(res.sandbox, ...inputs)
@@ -62,7 +68,7 @@ class LevelOutline extends Component {
 				this.setState({
 					selectOne: '',
 					message: '',
-					error: false,
+					error: '',
 					selected: [...this.state.selected, str1],
 					input0: '',
 					input1: '',
@@ -71,19 +77,34 @@ class LevelOutline extends Component {
 			}
 			else {
 				this.setState({
-					error: true
+					error: res.sandbox
 				})
 			}
 		})
 	}
 
-	render() {
+	render () {
 		const methods = Object.keys(assert);
 		const {message, selected, selectOne, error} = this.state
+		const level = this.props.levels.find(lev => lev.id === Number(this.props.match.params.id));
+
 		return (
 			<div>
 				<Row className="show-grid">
-					<Objective {...this.props} />
+					<Col xs={6} md={4}>
+						{level ? <AceEditor
+						    mode="javascript"
+						    onChange={(event) => console.log(event)}
+						    theme="github"
+						    readOnly={true}
+						    value={level.function}
+						    name="UNIQUE_ID_OF_DIV"
+						    editorProps={{$blockScrolling: true}}
+						    width="350px"
+						    height="350px"
+						/> : <span />
+						}
+					</Col>
 					<div>
 						{methods.map(method => (
 							<button
@@ -95,13 +116,13 @@ class LevelOutline extends Component {
 					</div>
 					<hr />
 					<div>
-						{levels[this.props.match.params.id - 1].buttons.map(button => (
+						{level ? level.buttons.map(button => (
 							<button
 							key={button}
 							value={button}
 							onClick={() => this.setState({input0: button})}
 							>{button}</button>)
-						)}
+						) : <span />}
 					</div>
 				</Row>
 				<div>
@@ -121,29 +142,29 @@ class LevelOutline extends Component {
 								    {arg}
 								    <input
 								    type="text"
-								    value={this.state["input"+i]}
+								    value={this.state['input' + i]}
 								    name={arg}
-								    onChange={ (event) => this.setState({["input" + i]: event.target.value})}
+								    onChange={ (event) => this.setState({['input' + i]: event.target.value})}
 								    />
 								</label>
 							</div>)
 							) : <span />
 						}
 						{selectOne ? <input type="submit" name="Submit" /> : <span /> }
-						{error ? <div>Test Failed Please Try Again</div> : <span /> }
+						{error ? <div>{error}</div> : <span /> }
 					</form>
 				</div>
 				<pre>
 					<code>
-						{
+						{level ?
 							`
-							describe('Writing tests for ${levels[this.props.match.params.id-1].title}', function(){
+							describe('Writing tests for ${level.title}', function(){
 								${selected.map(element => element)}
 								it('${message}',function(){
 							        assert.${selectOne}(${this.state.input0}${this.state.input1 ? ',' + this.state.input1 : ''}${this.state.input2 ? ',' + this.state.input2 : ''})
 								})
 							})
-							`
+							` : null
 						}
 					</code>
 				</pre>
@@ -155,13 +176,15 @@ class LevelOutline extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		sandbox: state.sandbox
+		sandbox: state.sandbox,
+		levels: state.levels
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		postCodeToSandbox: sandbox => dispatch(postCodeToSandbox(sandbox))
+		postCodeToSandbox: sandbox => dispatch(postCodeToSandbox(sandbox)),
+		getLevelsThunk: () => dispatch(getLevelsThunk())
 	}
 }
 
