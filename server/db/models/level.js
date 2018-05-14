@@ -14,17 +14,41 @@ const Level = db.define('Level', {
         type: Sequelize.TEXT,
         allowNull: false
     },
-    function: {
+    func: {
         type: Sequelize.TEXT,
         allowNull: false
     },
     buttons: {
         type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: false,
+        allowNull: true,
     },
-    solutions: {
-        type: Sequelize.STRING,
-        allowNull: false,
+    itBlock: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    instructions: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    tests: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+      allowNull: true,
+    },
+    actual: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    testToPass: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    intro: {
+      type: Sequelize.TEXT,
+      allowNull: true,
+    },
+    outro: {
+      type: Sequelize.TEXT,
+      allowNull: true,
     }
 })
 

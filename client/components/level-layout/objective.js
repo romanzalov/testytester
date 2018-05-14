@@ -1,14 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Col} from 'react-bootstrap'
-import levels from '../levels/levels'
-import brace from 'brace';
-import AceEditor from 'react-ace';
 import TestSuite from '../test-checks/test';
-
-import 'brace/mode/javascript';
-import 'brace/theme/chaos';
-
 
 const Objective = (props) => {
 	return (
