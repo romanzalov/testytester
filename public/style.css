@@ -5,6 +5,8 @@ body {
   color: #c0d3be;
   background-color: #1b1b1c;
   font-family: 'Inconsolata', monotype;
+  /* background-image: url(./img/star.svg);
+  background-repeat: unset; */
 }
 
 a {
@@ -417,4 +419,66 @@ ul, li {
 
 .expect-input::placeholder {
   color: #34a89e;
+}
+
+/* .transition-wrapper {
+  position: relative;
+  /* z-index: 1;
+} */
+
+.transition-wrapper .transition-item {
+  /* position: fixed; */
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.generator {
+  transition: transform 0.5s, opacity 0.5s;
+  transform: translate3d(0, 0, 0);
+}
+
+.generator.transition-appear {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+.generator.transition-appear.transition-appear-active {
+  opacity: 1;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.generator.transition-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.generator.transition-leave.transition-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.intro {
+  transition: transform 0.5s, opacity 0.5s;
+  transform: translate3d(0, 0, 0);
+}
+
+.intro.transition-appear {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+.intro.transition-appear.transition-appear-active {
+  opacity: 1;
+  transform: translate3d(-100%, 0, 0);
+}
+
+.intro.transition-leave {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.intro.transition-leave.transition-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
 }

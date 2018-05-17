@@ -7,7 +7,7 @@ module.exports = router
 let sand = new Sandbox();
 
 router.post('/', (req, res, next) => {
-  console.log(req.body.sandbox);
+  console.log('req.body.sandbox, ', req.body.sandbox);
 	Level.findOne({where: {level: req.body.level}})
 	.then(response => {
 		sand.run(response.func + ';' + req.body.sandbox, function(output){

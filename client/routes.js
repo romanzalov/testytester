@@ -1,12 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import {withRouter, Route, Router, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, StartGame} from './components'
 import {me, getLevelsThunk} from './store'
 import Level from './components/simplified/layout';
 import Intro from './components/simplified/intro';
 import TestGenerator from './components/test-generator'
+import PageTransition from 'react-router-page-transition';
+import history from './history'
 
 /**
  * COMPONENT
@@ -20,14 +22,20 @@ class Routes extends Component {
     const {isLoggedIn} = this.props
 
     return (
-    <Switch>
-        <Route path="/level/:id/intro" component={Intro} />
-        <Route path="/level/:id/start" component={Level} />
-        <Route exact path="/" component={StartGame} />
-        <Route path="/generator" component={TestGenerator} />
-        <Route path="/level/:id/" component={Intro} />
-        <Route component={StartGame} />
-      </Switch>
+      <Route
+        render={({ location }) => (
+          <PageTransition timeout={500}>
+            <Switch location={this.props.location}>
+              <Route path="/level/:id/intro" component={Intro} />
+              <Route path="/level/:id/start" component={Level} />
+              <Route exact path="/" component={StartGame} />
+              <Route path="/generator" component={TestGenerator} />
+              <Route path="/level/:id/" component={Intro} />
+              <Route component={StartGame} />
+            </Switch>
+          </PageTransition>
+        )}
+      />
     )
   }
 }

@@ -15,11 +15,11 @@ const reduxStore = store().store
 
 ReactDOM.render(
   <Provider store={reduxStore}>
-  <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={null} persistor={persistor}>
     <Router history={history}>
       <App />
-    </Router>
-  </PersistGate>
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById('app')
 )

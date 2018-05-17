@@ -9,7 +9,7 @@ class StartGame extends Component {
   }
   render() {
     return (
-      <div>
+      <div data-transition-id="start-page">
         <Header active={0} />
         <div className="start-container">
           <div className="start-game">

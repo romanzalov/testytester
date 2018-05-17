@@ -1,10 +1,10 @@
-/* global describe beforeEach it */
+// /* global describe beforeEach it */
 
 import {assert, expect} from 'chai'
-// import React from 'react'
-// import enzyme, {shallow} from 'enzyme'
-// import Adapter from 'enzyme-adapter-react-16'
-// import {UserHome} from './user-home'
+import React from 'react'
+import enzyme, {shallow} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
+import {UserHome} from './user-home'
 
 // const adapter = new Adapter()
 // enzyme.configure({adapter})
@@ -41,7 +41,7 @@ describe('return an array of numbers counting down from 10', () => {
 	let result = launchRocket();
 
 	it('launchRocket should be a function', () => {
-		assert.isNull(launchRocket);
+		assert.isFunction(launchRocket);
 	});
 
 	it('launchRocket should return an array', () => {
@@ -78,9 +78,4 @@ describe('', () => {
 		expect(testRocket.area()).to.equal(50);
 	});
 });
-
-
-
-
-
 

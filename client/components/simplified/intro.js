@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as ReactDOM from 'react-dom';
 import Header from './header';
 import ScrollArea from 'react-scrollbar';
 import history from '../../history'
@@ -23,7 +24,7 @@ class Intro extends Component {
     const thisLevel = this.props.levels.find(lev => lev.level === Number(this.props.match.params.id));
     const levelId = this.props.match.params.id
     return (
-      <div>
+      <div className="transition-item intro">
         <Header active={levelId} />
         <div className="start-container">
           <ScrollArea

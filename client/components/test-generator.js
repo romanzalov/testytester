@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {Row,Col} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import brace from 'brace';
 import { assert } from './test-object';
 import { it } from '../utils/tester';
@@ -95,7 +95,7 @@ class TestGenerator extends Component {
 		const invokedFuncArr = this.props.generator.split('\n')
 		const invokedFuncStr = invokedFuncArr[invokedFuncArr.length - 1]
 		return (
-			<div>
+			<div className="transition-item generator">
 				<Row className="show-grid">
 					<Col xs={6} md={4}>
 						<AceEditor
@@ -178,7 +178,7 @@ class TestGenerator extends Component {
 	            >
 					<h4>Code to Test:</h4>
 					<PrismCode component="pre" className="language-javascript">
-						{ 
+						{
 `
 describe('Writing tests for ${describe}', function(){
 	${selected.map(element => element)}
@@ -186,7 +186,7 @@ describe('Writing tests for ${describe}', function(){
         assert.${selectOne}(${invokedFuncStr}${inputTest1 ? ',' + inputTest1 : ''}${inputTest2 ? ',' + inputTest2 : ''})
 	})
 })
-` 
+`
 						}
 					</PrismCode>
 				</ScrollArea>
@@ -209,4 +209,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(TestGenerator)
+export default connect(mapStateToProps, mapDispatchToProps)(TestGenerator)
